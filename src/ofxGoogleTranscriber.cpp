@@ -157,6 +157,7 @@ void ofxGoogleTranscriber::beginInput(string lang) {
     clientTranscrPos = 0;
     silentSampleCount = 0;
     inBuffer.clear();
+    ofLogNotice("ofxGoogleTranscriber") << "Ready for input";
 }
 void ofxGoogleTranscriber::beginInput() {
     beginInput(langCode);
