@@ -44,7 +44,7 @@ void ofxGoogleTranscriber::appendTranscript(string transc) {
 void ofxGoogleTranscriber::transcribe(vector<int16_t> outBuffer) {
  
     ofLogNotice("ofxGoogleTranscriber") << "Thread " << this_thread::get_id()
-        << " beginning transcription of " << outBuffer.size() << " samples" << endl;
+        << " beginning transcription of " << outBuffer.size() << " samples";
    
     auto creds = grpc::GoogleDefaultCredentials();
     auto channel = grpc::CreateChannel("speech.googleapis.com", creds);
@@ -75,7 +75,7 @@ void ofxGoogleTranscriber::transcribe(vector<int16_t> outBuffer) {
             float confidence = alternative.confidence();
             if (confidence >= minConfidence)
                 appendTranscript(alternative.transcript());
-            ofLogNotice("ofxGoogleTranscriber") << confidence << "\t" << alternative.transcript() << endl;
+            ofLogNotice("ofxGoogleTranscriber") << confidence << "\t" << alternative.transcript();
         }
     }
     
