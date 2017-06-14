@@ -1,10 +1,10 @@
 # ofxGoogleTranscriber
 
 ## Install gRPC
-Clone the [gRPC repository](https://github.com/grpc/grpc) and follow [these instructions](https://github.com/grpc/grpc/blob/master/INSTALL.md) to install for C++.
+Clone the [gRPC repository](https://github.com/grpc/grpc) and follow [these instructions](https://github.com/grpc/grpc/blob/master/INSTALL.md) to install for C++ (build from source).
 
 ## Build and Run the Example
-You'll want to make sure the provided C++ `helloworld` runs to verify gRPC and protoc were installed correctly. Build it using [these steps](http://www.grpc.io/docs/quickstart/cpp.html). It may compile then segfault when run. This means gRPC and/or Protocol Buffers were not installed properly. 
+You'll want to make sure the provided C++ `helloworld` runs to verify gRPC and protoc were installed correctly. Build it using [these steps](http://www.grpc.io/docs/quickstart/cpp.html) (starting at the Build the Example section). The program may compile then segfault when run. This means gRPC and/or Protocol Buffers were not installed properly. 
 
 You can follow [these steps](https://github.com/grpc/grpc/issues/10946#issuecomment-298669056) to try installing again. 
 
