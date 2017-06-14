@@ -24,8 +24,6 @@
 #include "google/cloud/speech/v1/cloud_speech.grpc.pb.h"
 #include "google/longrunning/operations.grpc.pb.h"
 
-#define RMS_THRESH 0.009
-
 using namespace google::cloud::speech::v1;
 using google::cloud::speech::v1::RecognitionConfig;
 using google::cloud::speech::v1::RecognitionAudio;
@@ -66,7 +64,7 @@ void ofxGoogleTranscriber::transcribe(vector<int16_t> outBuffer) {
     
     if (!rpc_status.ok()) {
         ofLogError("ofxGoogleTranscriber") << "Code " << rpc_status.error_code()
-                                    << rpc_status.error_message();
+                                    << rpc_status.error_message() << endl;
     }
 
     for (int r = 0; r < response.results_size(); ++r) {
@@ -74,9 +72,10 @@ void ofxGoogleTranscriber::transcribe(vector<int16_t> outBuffer) {
         for (int a = 0; a < result.alternatives_size(); ++a) {
         
             auto alternative = result.alternatives(a);
-            appendTranscript(alternative.transcript());
-            ofLogNotice("ofxGoogleTranscriber") << alternative.confidence() << "\t" << alternative.transcript() << endl;
-            
+            float confidence = alternative.confidence();
+            if (confidence >= minConfidence)
+                appendTranscript(alternative.transcript());
+            ofLogNotice("ofxGoogleTranscriber") << confidence << "\t" << alternative.transcript() << endl;
         }
     }
     
@@ -105,14 +104,15 @@ void ofxGoogleTranscriber::waitForTranscribers() {
     ofLogNotice("ofxGoogleTranscriber") << "Finished transcription\t" << transcripts.str() << endl;
 }
 
-//————————————————————————————————————————————————————————————————————————————
+//-----------------------------------------------------------------------------
 // MARK: -                  Public Methods
-//————————————————————————————————————————————————————————————————————————————
+//-----------------------------------------------------------------------------
 
 /*****************************************************************************/
-void ofxGoogleTranscriber::setup(unsigned _sampleRate, string _langCode, float _maxChunkD) {
+void ofxGoogleTranscriber::setup(unsigned _sampleRate, float _minConfidence, string _langCode, float _maxChunkD) {
     langCode = _langCode;
     sampleRate = _sampleRate;
+    minConfidence = _minConfidence;
     maxChunkDuration = _maxChunkD;
     maxChunkSamples = sampleRate * maxChunkDuration;
     

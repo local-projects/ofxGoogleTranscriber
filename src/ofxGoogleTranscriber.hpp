@@ -15,6 +15,8 @@
 
 class ofxGoogleTranscriber {
     
+    float minConfidence;
+    
     float silenceThreshold;
     float maxSilenceDuration;
     unsigned maxSilentSamples;
@@ -44,7 +46,7 @@ class ofxGoogleTranscriber {
     atomic<bool> acceptInput;
 
 public:
-    void setup(unsigned _sampleRate=44100, string _langCode="en", float _maxChunkD=10.f);
+    void setup(unsigned _sampleRate=44100, float _minConfidence=0.85, string _langCode="en", float _maxChunkD=10.f);
     void setSilenceThreshold(float thresh, float duration=1.f);
 
     void addSoundBuffer(ofSoundBuffer& soundBuffer);
